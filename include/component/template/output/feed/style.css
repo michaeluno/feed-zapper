@@ -1,0 +1,131 @@
+/*
+    Template Name:  Feed
+    Template URI:   http://en.michaeluno.jp
+    Author:         Michael Uno
+    Author URI:     http://en.michaeluno.jp
+    Description:    Displays feeds.
+    Version:        1.0.0
+    License:        GNU General Public License v2 or later
+    License URI:    http://www.gnu.org/licenses/gpl-2.0.html
+    Tags:           default
+    Text Domain:    feed-zappers
+*/
+
+/**
+ * General
+ */
+.float-right {
+    float: right;
+}
+
+/**
+ * Item Container
+ */
+.feed-zapper-feed-container .feed-zapper-feed-item {
+    margin-bottom: 2em;
+    width: auto;
+}
+
+/**
+ * Feed Categories
+ */
+.feed-zapper-categories {
+    font-size: small;
+}
+
+/**
+ * Item Title
+ */
+.feed-zapper-feed-container .feed-zapper-feed-item-title {
+    width: auto;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/**
+ * Images
+ */
+.feed-zapper-feed-container .feed-zapper-feed-item-images {
+    display: inline-block;
+    max-width: 20%;
+    min-width: 20%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    padding-right: 1%;
+        
+}
+.feed-zapper-feed-container .feed-zapper-feed-item-image {
+    /* width: 100%; */
+    text-align: right;    
+}
+.feed-zapper-feed-container .feed-zapper-feed-item-image > img {
+    margin-right: auto;
+    margin-left: auto;
+    width: auto;
+    box-shadow: none;
+}
+@media only screen and (max-width: 480px) {
+    /* STYLES HERE for DEVICES with physical max-screen width of 480px */
+    .feed-zapper-feed-container .feed-zapper-feed-item-images {
+        width: 100%;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .feed-zapper-feed-container .feed-zapper-feed-item-image {
+        /* width: auto; */
+        display: inline-block;
+        margin-right: 1em;
+        margin-bottom: 1em;
+        text-align: left;
+    }
+}
+
+/**
+ * Item Body
+ */
+.feed-zapper-feed-container .feed-zapper-feed-body {
+    display: inline-block;
+    max-width: 78%;
+    min-width: 78%;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+}
+
+/**
+ * Item Meta
+ */
+.feed-zapper-feed-container .feed-zapper-feed-meta {
+    width: 100%;
+    font-size: small;
+}
+.feed-zapper-feed-container .feed-zapper-feed-date {
+    margin-right: 1em;
+}
+.feed-zapper-feed-container .feed-zapper-feed-author {
+    margin-right: 1em;    
+}
+
+
+/**
+ * Item Description
+ */
+.feed-zapper-feed-container .feed-zapper-feed-description {
+
+}
+@media only screen and (max-width: 480px) {
+    /* STYLES HERE for DEVICES with physical max-screen width of 480px */
+    .feed-zapper-feed-container .feed-zapper-feed-description {
+        max-width: 100%;
+    }
+}
+
+/**
+ * Misc
+ */
+.feed-zapper-feed-container .feed-zapper-feed-item blockquote {
+    margin-left: 0;
+}

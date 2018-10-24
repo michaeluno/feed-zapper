@@ -1,0 +1,27 @@
+/* Field URL Field */
+.postbox .feed-zapper-field.feed-zapper-field-text,
+.postbox .feed-zapper-field.feed-zapper-field-text > .feed-zapper-input-label-container
+{
+    /*min-width: 100%;*/
+    width: 99%;
+}
+.postbox .feed-zapper-field.feed-zapper-field-text input {
+    width: 100%;
+}
+
+/* Post Title Field */
+#fieldrow-post_title {
+    display: none;
+}
+
+/* Feed Preview */
+.preview-placeholder-text {
+    text-align: center;
+}
+#fields-_preview .feed-zapper-input-label-container {
+    min-width: 0;
+}
+.feed-preview-button-container {
+    text-align: right;
+    margin-right: 1em;
+}

@@ -1,0 +1,124 @@
+/*
+    Template Name:  Preview
+    Template URI:   http://en.michaeluno.jp
+    Author:         Michael Uno
+    Author URI:     http://en.michaeluno.jp
+    Description:    Displays feeds in the new feed creation page.
+    Version:        1.0.0
+    License:        GNU General Public License v2 or later
+    License URI:    http://www.gnu.org/licenses/gpl-2.0.html
+    Tags:           default
+    Text Domain:    feed-zappers
+*/
+
+/**
+ * Item Container
+ */
+.feed-zapper-preview-container .feed-zapper-preview-item {
+    margin-bottom: 2em;
+    width: auto;
+}
+/**
+ * Feed Title
+ */
+#feed-preview-title {
+    text-align: center;
+}
+/**
+ * Item Title
+ */
+.feed-zapper-preview-container .feed-zapper-preview-item-title {
+    width: auto;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/**
+ * Images
+ */
+.feed-zapper-preview-container .feed-zapper-preview-item-images {
+    display: inline-block;
+    max-width: 20%;
+    min-width: 20%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    padding-right: 1%;
+        
+}
+.feed-zapper-preview-container .feed-zapper-preview-item-image {
+    /* width: 100%; */
+    text-align: right;    
+}
+.feed-zapper-preview-container .feed-zapper-preview-item-image > img {
+    margin-right: auto;
+    margin-left: auto;
+    width: auto;
+    max-width: 140px;
+    box-shadow: none;
+}
+@media only screen and (max-width: 480px) {
+    /* STYLES HERE for DEVICES with physical max-screen width of 480px */
+    .feed-zapper-preview-container .feed-zapper-preview-item-images {
+        width: 100%;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .feed-zapper-preview-container .feed-zapper-preview-item-image {
+        /* width: auto; */
+        display: inline-block;
+        margin-right: 1em;
+        margin-bottom: 1em;
+        text-align: left;
+    }
+}
+
+/**
+ * Item Meta
+ */
+.feed-zapper-preview-container .feed-zapper-preview-meta {
+    width: 100%;
+}
+.feed-zapper-preview-container .feed-zapper-preview-date {
+    margin-right: 1em;
+}
+.feed-zapper-preview-container .feed-zapper-preview-author {
+    margin-right: 1em;    
+}
+
+/**
+ * Item Description
+ */
+.feed-zapper-preview-container .feed-zapper-preview-description {
+    display: inline-block;
+/* 
+width: 78%; */
+/* width: auto; */
+max-width: 78%;    
+min-width: 78%;
+    border: 0;    
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+}
+@media only screen and (max-width: 480px) {
+    /* STYLES HERE for DEVICES with physical max-screen width of 480px */
+    .feed-zapper-preview-container .feed-zapper-preview-description {
+        max-width: 100%;
+    }
+}
+
+/**
+ * Misc
+ */
+.feed-zapper-preview-container .feed-zapper-preview-item blockquote {
+    margin-left: 0;
+}
+
+/**
+ * Errors
+ */
+.feed-preview {
+    margin: 1em;
+}
