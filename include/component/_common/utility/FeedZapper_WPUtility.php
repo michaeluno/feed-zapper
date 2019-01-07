@@ -164,8 +164,11 @@ class FeedZapper_WPUtility extends FeedZapper_Utility {
      * @return  void
      */
     static public function accessWPCron() {
-        $_aQueryArguments = array(
+        add_action( 'shutdown', array( __CLASS__, 'replyToSpawnCron' ) );
+/*  @deprecated Not triggering actions.
+    $_aQueryArguments = array(
             'doing_wp_cron' => true,
+            'blocking'      => false,
         );
         if ( self::isDebugMode() ) {
             $_aQueryArguments[ 'fz_cron' ] = true;
@@ -177,8 +180,16 @@ class FeedZapper_WPUtility extends FeedZapper_Utility {
             ),
             array(), // http arguments
             false // immediate
-        );
+        );*/
     }
+        static public function replyToSpawnCron() {
+            static $_bCalled = false;
+            if ( $_bCalled ) {
+                return;
+            }
+            $_bCalled = true;
+            spawn_cron();
+        }
 
     static private $___aAccessSiteURLs = array();
 
