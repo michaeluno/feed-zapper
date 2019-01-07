@@ -251,9 +251,10 @@ class FeedZapper_Template_Carousel_ResourceLoader extends FeedZapper_PluginUtili
                     'taxonomySlugs'     => FeedZapper_Registry::$aTaxonomies,
                     // @deprecated 'cookieSlugs'       => FeedZapper_Registry::$aCookieSlugs,
                     'labels'            => array(
-                        // load buttons
-                        'loadMore' => __( 'Load More', 'feed-zapper' ),
-                        'noMore'   => __( 'No More', 'feed-zapper' ),
+                        // bottom buttons
+                        'loadMore'     => __( 'Load More', 'feed-zapper' ),
+                        'noMore'       => __( 'No More', 'feed-zapper' ),
+                        'checkedAbove' => __( 'Checked Above', 'feed-zapper' ),
                         // mute menu
                         'one_day'    => __( 'for one day', 'feed-zapper' ),
                         'one_week'   => __( 'for one week', 'feed-zapper' ),

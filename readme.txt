@@ -39,3 +39,6 @@ This is a plugin template for the developer to modify it to create their own plu
 
 = 1.0.0 =
 - Released. 
+
+= 0.2.0 =
+- Added the `Checked Above` button to dismiss bulk feed items.

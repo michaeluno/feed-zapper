@@ -380,7 +380,7 @@ console.log( 'setting channel: ' + _iCurrentSlide );
             var _iLatestTime = _oCurrent.find( '.feed-zapper-feed-item' ).attr( 'data-time' );
 
             // Retrieve term ids of visible owl items
-            // @todo support multiple columns. For that found term ids will be multiple as multiple visible items(columns).
+            // @todo support multiple columns. For that, found term ids will be multiple as multiple visible items(columns).
             // when multiple columns are displayed found term ids will be multiple.
             var _iTermID = _oCurrent.find( '.feeds-title' ).attr( 'data-term_id' );
             // var _sTermName = _oCurrent.find( '.feeds-title' ).text();
@@ -429,7 +429,7 @@ var _iStartedTime = + new Date;
             var _oContainer = oCurrent.find( '.feed-zapper-feed-container' );
             var _oSpinner   = _getSpinnerAdded( element, _oContainer, bLatest );;
 
-            // Prepare data tat is going to be sent to the background
+            // Prepare data that is going to be sent to the background
             var _aData = {
                 action: 'feed_zapper_action_get_feed_items',   // WordPress action hook name which follows after `wp_ajax_`
                 fz_nonce: sNonce,   // the nonce value set in template.php
@@ -520,6 +520,8 @@ console.log( 'whether added No More button: ' + _bAdded );
              */
             function _addBottomButton( _oContainer, oCurrent, element, sNonce ) {
 
+                _addCheckedAboveButton( _oContainer, sNonce );
+
                 var _bAdded = _addNoMoreButton( _oContainer );
                 if ( _bAdded ) {
                     return; // no need for the 'Load More' button
@@ -528,6 +530,38 @@ console.log( 'whether added No More button: ' + _bAdded );
                 _addLoadMoreButton( _oContainer, oCurrent, element, sNonce );
 
             }
+                /**
+                 *
+                 */
+                function _addCheckedAboveButton( _oContainer, sNonce ) {
+                    // remove previously added one @deprecated
+                    // _oContainer.find( '.checked-above' ).remove();
+                    var _oCheckedAboveButton = $( '<div class="align-center checked-above"><div class="margin-bottom2"><button class="feed-zapper-button feed-zapper-button4">' + fzCarousel.labels.checkedAbove + '</button></div></div>' );
+                    _oContainer.append( _oCheckedAboveButton );
+                    _oCheckedAboveButton.click( function() {
+
+                        var _oPreviousAll = $( this ).prevAll( '.feed-zapper-feed-item ' );
+                        // console.log( 'found previous: ' + _oPreviousAll.length );
+
+                        var _sDataKey = 'fz_uninterested_' + fzCarousel.userID;
+                        var _aUninterested = _getLocalData( _sDataKey );
+                        _oPreviousAll.each( function( index, value ) {
+                            var _iPostID = $( this ).attr( 'data-post_id' );
+                            if ( ! _iPostID ) {
+                                return true;    // continue
+                            }
+                            var _iNow = + new Date;
+                            var _iTimeIndex = _iNow + ( index * 0.001 );
+                            _aUninterested[ _iTimeIndex ] = _iPostID;
+                        });
+console.log( _aUninterested );
+                        _setLocalData( _sDataKey, _aUninterested );
+                        _dismissItems( _aUninterested, sNonce );
+                        _oPreviousAll.fadeOut( 500 );
+                        $( this ).fadeOut( 500 );
+                        $( this ).prevAll( '.checked-above' ).fadeOut( 500 );
+                    } );
+                }
                 /**
                  *
                  * @param _oContainer
@@ -760,6 +794,12 @@ console.log( 'dismissed: ' + _iPostID );
                         _aUninterested[ + new Date ] = _iPostID;
                         _aUninterested = _truncateObject( _aUninterested, 2000 );
                         _setLocalData( _sDataKey, _aUninterested );
+
+                        _dismissItems( _aUninterested, sNonce )
+
+                    } );
+                } // end of _handleDismissed()
+                    function _dismissItems( aItems, sNonce ) {
                         jQuery.ajax( {
                             type: "post",
                             dataType: 'json',
@@ -768,7 +808,7 @@ console.log( 'dismissed: ' + _iPostID );
                             data: {
                                 action: 'feed_zapper_action_uninterested_feed_item',   // WordPress action hook name which follows after `wp_ajax_`
                                 fz_nonce: sNonce,   // the nonce value set in template.php
-                                uninterested_feed_post_ids: _aUninterested
+                                uninterested_feed_post_ids: aItems
                             },
                             success: function ( response ) {
                                 if ( response.success ) {
@@ -778,10 +818,7 @@ console.log( 'dismissed: ' + _iPostID );
                                 }
                             }
                         });
-
-                    } );
-                } // end of _handleDismissed()
-
+                    }
     function _getLocalData( sKey ) {
         if ( 'undefined' === typeof( Storage ) ) {
             return {};
