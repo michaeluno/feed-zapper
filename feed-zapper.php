@@ -5,7 +5,7 @@
  * Description:    Helps your feed zapping and create your own zappers' network.
  * Author:         Michael Uno
  * Author URI:     http://en.michaeluno.jp
- * Version:        0.0.1
+ * Version:        0.2.0
  */
 
 /**
@@ -15,7 +15,7 @@
  */
 class FeedZapper_Registry_Base {
  
-    const VERSION        = '0.0.1';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION        = '0.2.0';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME           = 'Feed Zapper';
     const DESCRIPTION    = 'Helps your feed zapping and create your own zappers\' network.';
     const URI            = '[PROGRAM_URI]';
@@ -67,6 +67,12 @@ final class FeedZapper_Registry extends FeedZapper_Registry_Base {
      * @since       0.0.1
      */
     static public $sDirPath;
+
+    /**
+     * @since   0.0.5
+     * @var string
+     */
+    static public $sTempDirPath = '';
 
     /**
      * @since    0.0.1
@@ -238,8 +244,7 @@ final class FeedZapper_Registry extends FeedZapper_Registry_Base {
      * Sets up class properties.
      * @return      void
      */
-    static function setUp( $sPluginFilePath ) {
-        self::$sFilePath = $sPluginFilePath; 
+    static function setUp() {
         self::$sDirPath  = dirname( self::$sFilePath );  
     }    
     
@@ -299,7 +304,7 @@ final class FeedZapper_Registry extends FeedZapper_Registry_Base {
     );
 
 }
-FeedZapper_Registry::setUp( __FILE__ );
+FeedZapper_Registry::setUp();
 
 // Do not load if accessed directly. Not exiting here because other scripts will load this main file such as uninstall.php and inclusion list generator
 // and if it exists their scripts will not complete.
