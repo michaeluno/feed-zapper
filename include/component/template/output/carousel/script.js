@@ -448,6 +448,7 @@ var _iReceivedResponse = + new Date;
                     // @see https://stackoverflow.com/a/8612928
                     var _oTemp     = $( '<div class="wrapper-for-find-method"></div>' );
                     var _oResponse = $( response ); // plural, holding multiple elements (feed post item/error outputs )
+
                     _oTemp.append( _oResponse );
                     var _oError    = _oTemp.find( '.feed-error' );
                     var _bHasError = _oError.length;
@@ -462,6 +463,12 @@ var _iReceivedResponse = + new Date;
                     } else {
                         _addResponseItems( element, _oResponse, _oContainer, sNonce, 'append' );
                     }
+                    // 0.2.1
+                    if ( 0 === _oContainer.find( '.feed-zapper-feed-item' ).length ) {
+                        _addNoMoreButton( _oContainer, true );
+                        return;
+                    }
+
 
                     // End marker - so when the user reaches the bottom, an event fires
                     if ( ! _bHasError ) {
@@ -520,7 +527,7 @@ console.log( 'whether added No More button: ' + _bAdded );
              */
             function _addBottomButton( _oContainer, oCurrent, element, sNonce ) {
 
-                _addCheckedAboveButton( _oContainer, sNonce );
+                _addCheckedAboveButton( _oContainer, sNonce, element );
 
                 var _bAdded = _addNoMoreButton( _oContainer );
                 if ( _bAdded ) {
@@ -533,15 +540,19 @@ console.log( 'whether added No More button: ' + _bAdded );
                 /**
                  *
                  */
-                function _addCheckedAboveButton( _oContainer, sNonce ) {
+                function _addCheckedAboveButton( _oContainer, sNonce, element ) {
                     // remove previously added one @deprecated
                     // _oContainer.find( '.checked-above' ).remove();
                     var _oCheckedAboveButton = $( '<div class="align-center checked-above"><div class="margin-bottom2"><button class="feed-zapper-button feed-zapper-button4">' + fzCarousel.labels.checkedAbove + '</button></div></div>' );
+                    if ( ! _oContainer.find( '.feed-zapper-feed-item' ).length ) {
+                        return;
+                    }
                     _oContainer.append( _oCheckedAboveButton );
                     _oCheckedAboveButton.click( function() {
 
-                        var _oPreviousAll = $( this ).prevAll( '.feed-zapper-feed-item ' );
+                        var _oPreviousAll = $( this ).prevAll( '.feed-zapper-feed-item' );
                         // console.log( 'found previous: ' + _oPreviousAll.length );
+
 
                         var _sDataKey = 'fz_uninterested_' + fzCarousel.userID;
                         var _aUninterested = _getLocalData( _sDataKey );
@@ -554,12 +565,12 @@ console.log( 'whether added No More button: ' + _bAdded );
                             var _iTimeIndex = _iNow + ( index * 0.001 );
                             _aUninterested[ _iTimeIndex ] = _iPostID;
                         });
-console.log( _aUninterested );
                         _setLocalData( _sDataKey, _aUninterested );
                         _dismissItems( _aUninterested, sNonce );
                         _oPreviousAll.fadeOut( 500 );
                         $( this ).fadeOut( 500 );
                         $( this ).prevAll( '.checked-above' ).fadeOut( 500 );
+                        $( element ).slick( 'animateHeight' );
                     } );
                 }
                 /**

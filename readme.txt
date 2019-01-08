@@ -40,5 +40,9 @@ This is a plugin template for the developer to modify it to create their own plu
 = 1.0.0 =
 - Released. 
 
-= 0.2.0 =
+= 0.2.1 01/08/2019 =
+- Made the `Load More` button not to show when feed items are not returned and instead the `No More` button is now displayed.
+- Fixed an issue that the container left black space after pressing the `Checked Above` button.
+
+= 0.2.0 01/07/2019 =
 - Added the `Checked Above` button to dismiss bulk feed items.
