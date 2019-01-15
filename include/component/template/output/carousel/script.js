@@ -538,7 +538,7 @@ console.log( 'whether added No More button: ' + _bAdded );
 
             }
                 /**
-                 *
+                 * @since 0.2.1
                  */
                 function _addCheckedAboveButton( _oContainer, sNonce, element ) {
                     // remove previously added one @deprecated
@@ -552,7 +552,6 @@ console.log( 'whether added No More button: ' + _bAdded );
 
                         var _oPreviousAll = $( this ).prevAll( '.feed-zapper-feed-item' );
                         // console.log( 'found previous: ' + _oPreviousAll.length );
-
 
                         var _sDataKey = 'fz_uninterested_' + fzCarousel.userID;
                         var _aUninterested = _getLocalData( _sDataKey );
@@ -571,6 +570,10 @@ console.log( 'whether added No More button: ' + _bAdded );
                         $( this ).fadeOut( 500 );
                         $( this ).prevAll( '.checked-above' ).fadeOut( 500 );
                         $( element ).slick( 'animateHeight' );
+                        $( [document.documentElement, document.body] ).animate({
+                            scrollTop: $( element ).offset().top - 50
+                        }, 1000);
+console.log( 'scrolling to: ' + $( element ).offset().top - 50 );
                     } );
                 }
                 /**
