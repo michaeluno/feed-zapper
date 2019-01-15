@@ -44,7 +44,7 @@ class FeedZapper_Action_Ajax_GetFeedItems extends FeedZapper_Event_Action_Base {
 // FeedZapper_Debug::log( $aWPQuery );
             $_sResponse = getFeedZapperFeed(
                     array(
-                        'count'         => 10,
+                        'count'         => 40,
                         'query'         => $aWPQuery,
                         'template_path' => $_sTemplatesDirPath . '/post/template.php',
                     ),

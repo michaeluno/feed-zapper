@@ -41,6 +41,7 @@ This is a plugin template for the developer to modify it to create their own plu
 - Released. 
 
 = 0.2.2 =
+- Increased the number of feed items to load at once to 40 from 10.
 - Fixed an issue with FireFox that the empty space was left when clicking on the `Checked Above` button.
 
 = 0.2.1 01/08/2019 =
