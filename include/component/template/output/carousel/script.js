@@ -6,6 +6,13 @@
  *
  */
 (function($){
+
+    /**
+     * The Check Latest button.
+     */
+    $(document).ready(function(){
+    } );
+
     $(document).ready(function(){
 
         // Local Variables used among different routines
@@ -26,7 +33,7 @@
         _oFeeds.on( 'init afterChange', function( event, slick, currentSlide, nextSlide ){
             var _iCurrentSlide = slick.slickCurrentSlide(); // `currentSlide` is null for the `init` event.
             _setLocalData( 'fz_last_channel_' + fzCarousel.userID, _iCurrentSlide );
-            _slickLoad( this, event, slick, _iCurrentSlide, nextSlide );
+            _slickLoad( this, event, slick, _iCurrentSlide );
         });
         _oFeeds.slick( _getSlickSettings( _iInitialSlide ) );
 
@@ -38,6 +45,16 @@
             e.preventDefault();
             _oFeeds.slick( 'slickGoTo', parseInt( $( this ).attr( 'data-slide-index' ) ) );
         } );
+
+        $( '.feed-item-action-check-latest' ).click( function( event ){
+            var _oFeeds = $( '.feed-zapper-all-feeds' );
+            var _oSlick = _oFeeds.slick( 'getSlick' );
+            _slickLoad( _oFeeds.get( 0 ), event, _oSlick, _oSlick.slickCurrentSlide() );
+        } );
+
+        setInterval( function(){
+            $( '.feed-zapper-all-feeds .slick-current.slick-active .feed-item-action-check-latest' ).trigger( 'click' );
+        }, 60000 * 10 );
 
         function _getSlickSettings( _iInitialSlide ) {
             return {
@@ -74,10 +91,9 @@
          * @param event
          * @param slick
          * @param iCurrentSlide
-         * @param iNextSlide
          * @private
          */
-        function _slickLoad( element, event, slick, iCurrentSlide, iNextSlide ) {
+        function _slickLoad( element, event, slick, iCurrentSlide ) {
 
             var _oCurrent = $( element ).find( '[data-slick-index="'+(iCurrentSlide)+'"]' );
             var _iLatestTime = _oCurrent.find( '.feed-zapper-feed-item' ).attr( 'data-time' );
@@ -130,7 +146,9 @@
 var _iStartedTime = + new Date;
 
             var _oContainer = oCurrent.find( '.feed-zapper-feed-container' );
-            var _oSpinner   = _getSpinnerAdded( element, _oContainer, bLatest );;
+            var _oSpinner   = _getSpinnerAdded( element, _oContainer, bLatest );
+            var _oIconCheckLatest = _oContainer.closest( '.feeds' ).find( '.dashicons-update-alt' );
+            _oIconCheckLatest.addClass( 'icon-spinner' );
 
             // Prepare data that is going to be sent to the background
             var _aData = {
@@ -188,6 +206,7 @@ var _iReceivedResponse = + new Date;
                 complete: function ( jqXHR, textStatus ) {
 
                     _oSpinner.remove();
+                    _oIconCheckLatest.removeClass( 'icon-spinner' );
 
                     // Fix height
                     var _oSlickList    = _oContainer.closest( '.slick-list' );
@@ -358,13 +377,14 @@ console.log( 'whether added No More button: ' + _bAdded );
             function _getSpinnerAdded( element, _oContainer, bLatest ) {
                 var _oSpinner   = $( '<div class="align-center spinner-loading-feed"><img src="' + fzCarousel.spinnerURL + '" /></div>' );
                 if ( bLatest ) {
-                    _oContainer.prepend(
-                        _oSpinner
+                    // @deprecated 0.2.4 Uses the check latest icon in the title
+                    // _oContainer.prepend(
+                    //     _oSpinner
                         // @deprecated 0.2.3 Causes an error in jQuery 3.5
                         // _oSpinner.fadeIn( 100, function() {
                         //     $( element ).slick( 'animateHeight' );
                         // } )
-                    );
+                    // );
                 } else {
                     _oContainer.append( _oSpinner.hide().fadeIn( 500 ) );
                 }

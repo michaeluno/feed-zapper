@@ -1,1 +1,2 @@
-- Cache feed channels.
+- Added the ability to auto-load the latest currently displaying feed.
+- Added the ability to cache feed channels.

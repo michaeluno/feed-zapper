@@ -76,7 +76,15 @@ echo $_oUtil->getWordCloud( $_aWordCloudTags );
         $_sHidden = '';
         echo "<div class='feeds {$_sHidden}'>"
                 . "<div class='feed-head'>"
-                    . "<h2 class='feed-title' data-term_id='{$_aTag[ 'term_id' ]}'>" . $_aTag[ 'name' ] . "</h2>"
+                    . "<div></div>"
+                    . "<div>"
+                        . "<h2 class='feed-title' data-term_id='{$_aTag[ 'term_id' ]}'>" . $_aTag[ 'name' ] . "</h2>"
+                    . "</div>"
+                    . "<div>"
+                        . "<div class='feed-item-action-check-latest feed-item-action' title='" . esc_attr( __( 'Check Latest', 'feed-zapper' ) ) . "'>"
+                            . "<span class='dashicons dashicons-update-alt'></span>"
+                        . "</div>"
+                    . "</div>"
                 . "</div>"
                 . "<div class='feed-body'>"
                     // body content (feed item output) will be placed here

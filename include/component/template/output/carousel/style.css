@@ -55,10 +55,27 @@
 .feed-zapper-all-feeds .feed-head {
     text-align: center;
 }
+.feed-zapper-all-feeds .feed-head > div {
+    width: 33%;
+    display: inline-block;
+}
 
 /* Spinner */
 .spinner-loading-feed {
     margin-bottom: 2em;
+}
+.icon-spinner:before {
+    animation: spin-animation 2s infinite;
+    animation-timing-function: linear;
+    display: inline-block;
+}
+@keyframes spin-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
 }
 
 /* Ajax Response Elements */
@@ -66,7 +83,7 @@
     text-align: center;
 }
 
-.feed-item-actions > .feed-item-action {
+.feed-item-action {
     display: inline-block;
 }
 
@@ -83,6 +100,9 @@
 }
 
 /* Channels */
+.feed-zapper-all-feed-channels {
+    margin-bottom: 2em;
+}
 .entry-content .feed-zapper-all-feed-channels a,
 .feed-zapper-all-feed-channels a
 {
