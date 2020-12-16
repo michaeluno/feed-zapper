@@ -5,6 +5,7 @@ class FeedZapper_Template_Carousel_Utility extends FeedZapper_PluginUtility {
     /**
      * Ensures only one time to create a nonce for this particular template.
      * @return bool|string
+     * @deprecated 0.2.4
      */
     static public function getTemplateNonce() {
         static $_sNonce;

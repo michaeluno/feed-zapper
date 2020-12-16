@@ -10,7 +10,7 @@
 
         // Local Variables used among different routines
         var _oFeeds        = $( '.feed-zapper-all-feeds' );
-        var _sNonce        = _oFeeds.parent().children( '.nonce' ).first().attr( 'data-nonce' );
+        // var _sNonce        = _oFeeds.parent().children( '.nonce' ).first().attr( 'data-nonce' );
 
 console.log( 'jquery version: ' + $().jquery );
 var version = $.ui ? $.ui.version || "pre 1.6" : 'jQuery-UI not detected';
@@ -186,7 +186,7 @@ console.log( 'jquery ui version: ' + version );
                             _aInputs[ 'by' ] = _sSelectedMenuItem;
                             setTimeout(
                                 function(){
-                                    _handleItemActionMute( _aInputs, _sNonce );
+                                    _handleItemActionMute( _aInputs, fzCarousel.nonce );
                                 },
                                 10  // ajax call within the `show` event callback causes an error
                             );
@@ -421,7 +421,7 @@ console.log( 'setting channel: ' + _iCurrentSlide );
                     }
                 ];
             }
-            _loadFeedItems( aQuery, _oCurrent, element, _sNonce, true );
+            _loadFeedItems( aQuery, _oCurrent, element, fzCarousel.nonce, true );
         }
         /**
          *

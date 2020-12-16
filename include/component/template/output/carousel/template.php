@@ -12,7 +12,7 @@
 //return;
 
 $_oUtil  = new FeedZapper_Template_Carousel_Utility;
-$_sNonce = $_oUtil->getTemplateNonce();
+//$_sNonce = $_oUtil->getTemplateNonce(); // @deprecated 0.2.4
 $_aTags  = $_oUtil->getUserChannels( get_current_user_id(), 100 );
 
 //$_aPostCounts = wp_list_pluck( $_aTags, 'count' );
@@ -65,8 +65,9 @@ echo $_oUtil->getWordCloud( $_aWordCloudTags );
 ?>
 
 <div class="feed-action align-right"><span class="dashicons dashicons-admin-generic"></span></div>
-
+<?php /* @deprecated 0.2.4 Use the nonce value passed to the script
 <input type="hidden" class="nonce" data-nonce="<?php echo $_sNonce;?>" />
+*/ ?>
 <div class="feed-zapper-all-feeds">
     <?php
     $_iCount = 1;

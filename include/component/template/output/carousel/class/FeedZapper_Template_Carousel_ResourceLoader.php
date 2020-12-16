@@ -115,6 +115,7 @@ class FeedZapper_Template_Carousel_ResourceLoader extends FeedZapper_PluginUtili
                     'userID'            => get_current_user_id(),
                     'spinnerURL'        => site_url( 'wp-includes/js/tinymce/skins/lightgray/img/loader.gif' ),
                     'AJAXURL'           => admin_url( 'admin-ajax.php' ),
+                    'nonce'             => wp_create_nonce('feed_zapper_carousel_template_nonce' ),
                     'debugMode'         => $this->isDebugMode(),
                     'taxonomySlug'      => FeedZapper_Registry::$aTaxonomies[ 'feed_tag' ],
                     'taxonomySlugs'     => FeedZapper_Registry::$aTaxonomies,
