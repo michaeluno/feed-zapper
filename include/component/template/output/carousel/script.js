@@ -382,8 +382,8 @@ console.log( 'setting channel: ' + _iCurrentSlide );
             // Retrieve term ids of visible owl items
             // @todo support multiple columns. For that, found term ids will be multiple as multiple visible items(columns).
             // when multiple columns are displayed found term ids will be multiple.
-            var _iTermID = _oCurrent.find( '.feeds-title' ).attr( 'data-term_id' );
-            // var _sTermName = _oCurrent.find( '.feeds-title' ).text();
+            var _iTermID = _oCurrent.find( '.feed-title' ).attr( 'data-term_id' );
+            // var _sTermName = _oCurrent.find( '.feed-title' ).text();
             var aQuery = {
                 tax_query: [
                     {
@@ -615,8 +615,8 @@ console.log( 'whether added No More button: ' + _bAdded );
                         // Retrieve term ids of visible owl items
                         // @todo support multiple columns. For that found term ids will be multiple as multiple visible items(columns).
                         // when multiple columns are displayed found term ids will be multiple.
-                        var _iTermID = oCurrent.find( '.feeds-title' ).attr( 'data-term_id' );
-                        // var _sTermName = _oCurrent.find( '.feeds-title' ).text();
+                        var _iTermID = oCurrent.find( '.feed-title' ).attr( 'data-term_id' );
+                        // var _sTermName = _oCurrent.find( '.feed-title' ).text();
                         var aQuery = {
                             tax_query: [
                                 {

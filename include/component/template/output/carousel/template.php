@@ -39,8 +39,8 @@ array_push(
     foreach( $_aTags as $_iIndex => $_aTag ) {
         $_sHidden = 1 < $_iCount ? 'hidden' : '';
         $_sHidden = '';
-        echo "<div class='{$_sHidden}'>"
-                . "<h5 class='feeds-title'>" . $_aTag[ 'name' ] . "</h5>"
+        echo "<div class='feed-title-container {$_sHidden}'>"
+                . "<h5 class='feed-title'>" . $_aTag[ 'name' ] . "</h5>"
             . "</div>";
         $_iCount++;
     }
@@ -57,14 +57,14 @@ array_push(
         $_sHidden = 1 < $_iCount ? 'hidden' : '';
         $_sHidden = '';
         echo "<div class='feeds {$_sHidden}'>"
-                . "<div class='feeds-head'>"
-                    . "<h2 class='feeds-title' data-term_id='{$_aTag[ 'term_id' ]}'>" . $_aTag[ 'name' ] . "</h2>"
+                . "<div class='feed-head'>"
+                    . "<h2 class='feed-title' data-term_id='{$_aTag[ 'term_id' ]}'>" . $_aTag[ 'name' ] . "</h2>"
                 . "</div>"
-                . "<div class='feeds-body'>"
+                . "<div class='feed-body'>"
                     // body content (feed item output) will be placed here
                     . '<div class="feed-zapper-feed-container">'
                     . '</div><!-- .feed-zapper-feed-container -->'
-                . "</div><!-- feeds-body -->"
+                . "</div><!-- feed-body -->"
             . "</div>";
         $_iCount++;
     }

@@ -52,7 +52,7 @@
 }
 
 /* Feed Elements */
-.feed-zapper-all-feeds .feeds-head {
+.feed-zapper-all-feeds .feed-head {
     text-align: center;
 }
 
@@ -68,8 +68,14 @@
 
 
 /* Navigation Elements */
-.feed-zapper-all-feeds-slider-nav .feeds-title {
+.feed-zapper-all-feeds-slider-nav .feed-title-container {
+    display: inline-block;
+}
+.feed-zapper-all-feeds-slider-nav .feed-title {
     text-align: center;
+    display: inline-block;
+    margin: 0 0.4em;
+    width: 100%; /* need to center the text */
 }
 
 /* Owl Carousel Customization */
