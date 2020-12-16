@@ -16,6 +16,49 @@
 class FeedZapper_WPUtility extends FeedZapper_Utility {
 
     /**
+     * @param  string $sTransientKey
+     * @param  mixed  $mDefault
+     * @return mixed
+     * @since  0.2.4
+     */
+    static public function getTransientAsOption( $sTransientKey, $mDefault=null ) {
+        $_sOptionName = "_transient_{$sTransientKey}";
+        if ( self::isTransientAsOptionExpired( $sTransientKey ) ) {
+            return $mDefault;
+        }
+        return get_option( $_sOptionName, $mDefault );
+    }
+
+    /**
+     * @param  string  $sTransientKey
+     * @return boolean
+     * @since  0.2.4
+     */
+    static public function isTransientAsOptionExpired( $sTransientKey ) {
+        $_sNameTimeout     = "_transient_timeout_{$sTransientKey}";
+        return self::isExpired( ( integer ) get_option( $_sNameTimeout, 0 ) );
+    }
+    /**
+     * Sets an option looking like a transient in the options table.
+     * The data is stored as an option but with the transient name.
+     * This is to enable the autoload option but with an expiration time.
+     * By using set_transient(), if an expiration time is given, the autoload option will be disabled.
+     * @param  string  $sTransientKey
+     * @param  mixed   $mValue
+     * @param  integer $iLifespan
+     * @return mixed
+     * @since  0.2.4
+     */
+    static public function setTransientAsOption( $sTransientKey, $mValue, $iLifespan ) {
+        $_sNameTimeout     = "_transient_timeout_{$sTransientKey}";
+        $_sName            = "_transient_{$sTransientKey}";
+        update_option( $_sNameTimeout, time() + $iLifespan );
+var_dump( array( $_sName, $_sNameTimeout ) );
+
+        return update_option( $_sName, $mValue );
+    }
+
+    /**
      * Creates a post of a specified custom post type with unit option meta fields.
      *
      * @return      integer|WP_Error
@@ -210,7 +253,7 @@ class FeedZapper_WPUtility extends FeedZapper_Utility {
             'sslverify' => false,
         );
         if ( $bImmediate ) {
-            wp_remote_get( $_sURL, $aHTTPArguments );
+            wp_remote_get( $sURL, $aHTTPArguments );
         }
         if ( self::hasBeenCalled( __METHOD__ ) ) {
             return;

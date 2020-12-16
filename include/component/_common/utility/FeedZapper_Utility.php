@@ -14,6 +14,18 @@
 class FeedZapper_Utility extends FeedZapper_AdminPageFramework_WPUtility {
 
     /**
+     * Checks if the current time is over the given time.
+     * @since       0.2.4
+     * @remark      Assumed that the given time is not have any local time offset.
+     * @param       integer|double|string   $nsSetTime
+     * @return      boolean
+     */
+    static public function isExpired( $nsSetTime ) {
+        $_nSetTime = is_numeric( $nsSetTime ) ? $nsSetTime : strtotime( $nsSetTime );
+        return ( $_nSetTime <= time() );
+    }
+
+    /**
      * Returns a truncated string.
      * @since       0.0.1
      * @return      string
