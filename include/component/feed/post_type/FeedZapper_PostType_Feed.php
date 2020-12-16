@@ -415,6 +415,7 @@ class FeedZapper_PostType_Feed extends FeedZapper_AdminPageFramework_PostType {
      * @return       array
      */
     public function columns_fz_feed( $aHeaderColumns ) {
+        $aHeaderColumns[ 'url' ] = __( 'URL', 'feed-zapper' );
         $aHeaderColumns[ 'last_updated' ] = __( 'Last Updated', 'feed-zapper' );
         unset( $aHeaderColumns[ 'date' ] );
         return $aHeaderColumns;
@@ -424,6 +425,7 @@ class FeedZapper_PostType_Feed extends FeedZapper_AdminPageFramework_PostType {
      * @callback    filter  cell_{post type slug}_{column slug}
      * @param string $sCell
      * @param $oPost
+     * @return string
      */
     public function cell_fz_feed_last_updated( $sCell, $iPost ) {
         $_sModifiedTimeGMT = get_post_field( 'post_modified_gmt', $iPost, 'raw' );
@@ -432,6 +434,10 @@ class FeedZapper_PostType_Feed extends FeedZapper_AdminPageFramework_PostType {
         return '<p class="">'
             . '<em>'. $_sTimeDiff .'</em>'
             . '</p>';
+    }
+
+    public function cell_fz_feed_url( $sCell, $iPostID ) {
+        return "<p>" . get_post_meta( $iPostID, '_fz_feed_url', true ) . "</p>";
     }
 
     public function content( $sContents ) {
