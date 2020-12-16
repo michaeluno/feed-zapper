@@ -796,7 +796,7 @@ console.log( 'added response items' );
                     oResponse.find( '.feed-item-action-dismiss' ).on( 'click', function( e ){
 console.log( 'dismiss button clicked' );
 
-                        $( this ).closest( '.feed-zapper-feed-item' ).fadeOut( 500 );
+                        $( this ).closest( '.feed-zapper-feed-item' ).hide();
                         var _sItemID = $( this ).closest( '.feed-zapper-feed-item' ).attr( 'data-id' );
                         var _iPostID = $( this ).closest( '.feed-zapper-feed-item' ).attr( 'data-post_id' );
                         if ( ! _iPostID ) {
