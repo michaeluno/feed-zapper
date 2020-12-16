@@ -56,6 +56,10 @@
     text-align: center;
 }
 
+/* Spinner */
+.spinner-loading-feed {
+    margin-bottom: 2em;
+}
 
 /* Ajax Response Elements */
 .feed-zapper-all-feeds .error.feed-error {

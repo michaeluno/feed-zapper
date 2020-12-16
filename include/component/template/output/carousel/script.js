@@ -661,19 +661,17 @@ console.log( 'whether added No More button: ' + _bAdded );
                 });
             }
             function _getSpinnerAdded( element, _oContainer, bLatest ) {
-                var _oSpinner   = $( '<div class="align-center"><img src="' + fzCarousel.spinnerURL + '" /></div>' )
-                    .css( 'margin-bottom', '2em' )
-                    .hide();
+                var _oSpinner   = $( '<div class="align-center spinner-loading-feed"><img src="' + fzCarousel.spinnerURL + '" /></div>' );
                 if ( bLatest ) {
                     _oContainer.prepend(
-                        _oSpinner.show()
+                        _oSpinner
                         // @deprecated 0.2.3 Causes an error in jQuery 3.5
-                        // _oSpinner.fadeIn( 1, function() {
+                        // _oSpinner.fadeIn( 100, function() {
                         //     $( element ).slick( 'animateHeight' );
                         // } )
                     );
                 } else {
-                    _oContainer.append( _oSpinner.fadeIn( 500 ) );
+                    _oContainer.append( _oSpinner.hide().fadeIn( 500 ) );
                 }
 console.log( 'loading ' + ( bLatest ? 'latest' : 'older' ) + ' ...' );
                 return _oSpinner;
