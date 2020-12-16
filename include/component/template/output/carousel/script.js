@@ -346,7 +346,7 @@ console.log('channel clicked:', parseInt( $( this ).attr( 'data-slide-index' ) )
 
         function _getSlickSettings( _iInitialSlide ) {
             return {
-                dots: true,
+                dots: false,
                 infinite: true,
                  // speed: 300,
                 slidesToShow: 1,
