@@ -16,6 +16,7 @@
  *
  * @todo    Currently to load template resources, the `wp` action hook is used and this hook timing is too late
  * to add ajax action callbacks in `functions.php` Think about a better implementation.
+ * -> [0.2.4] change to `wp_loaded` as `wp` is not triggered in admin while the template function.php needs to be loaded in admin.
  */
 class FeedZapper_Template_ResourceLoader extends FeedZapper_Template_Utility {
 
@@ -30,10 +31,12 @@ class FeedZapper_Template_ResourceLoader extends FeedZapper_Template_Utility {
         if ( $this->hasBeenCalled( __METHOD__ ) ) {
             return;
         }
-        if ( did_action( 'wp' ) ) {
+
+        $_sActionHook = defined( 'DOING_AJAX' ) && DOING_AJAX ? 'wp' : 'wp_loaded';
+        if ( did_action( $_sActionHook ) ) {
             trigger_error( 'Feed Zapper: The class is called too late. Call this class before the `wp` hook.' );
         }
-        add_action( 'wp', array( $this, 'replyToLoad' ) );
+        add_action( $_sActionHook, array( $this, 'replyToLoad' ) );
         
     }
         public function replyToLoad() {
@@ -54,11 +57,12 @@ class FeedZapper_Template_ResourceLoader extends FeedZapper_Template_Utility {
             }
                 public function replyToAddActiveTemplatesForTheFeedPage( $aActiveTemplates, FeedZapper_Template_Option $oTemplateOption ) {
 
-                    $_oOption = FeedZapper_Option::getInstance();
-                    $_iFeedPageID = ( integer ) $_oOption->get( array( 'feed', 'page', 'value' ), 0 );
-                    if ( ! is_page( $_iFeedPageID ) ) {
-                        return $aActiveTemplates;
-                    }
+        // @deprecated 0.2.4 To load function.php in admin, the hook changed to `wp_loaded` from `wp` and is_page() does not work with `wp_loaded`
+//                    $_oOption = FeedZapper_Option::getInstance();
+//                    $_iFeedPageID = ( integer ) $_oOption->get( array( 'feed', 'page', 'value' ), 0 );
+//                    if ( ! is_page( $_iFeedPageID ) ) {
+//                        return $aActiveTemplates;
+//                    }
                     // Carousel
                     $_aTemplate = $oTemplateOption->getTemplateArrayByDirPath(
                         // FeedZapper_Registry::$sDirPath . '/include/component/template/output/post' deprecated
