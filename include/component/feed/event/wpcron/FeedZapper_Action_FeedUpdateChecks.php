@@ -200,7 +200,6 @@ class FeedZapper_Action_FeedUpdateChecks extends FeedZapper_Event_Action_Base {
             array( $sURL )
         );
         $this->accessWPCron();
-// FeedZapper_Debug::log( 'scheduling fetch: ' . $sURL );
     }
 
 

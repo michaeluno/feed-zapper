@@ -51,8 +51,6 @@ class FeedZapper_Event_Action_HTTPCacheRenewal extends FeedZapper_Event_Action_B
         $iCacheDuration = $_aParameters[ 1 ];
         $aArguments     = $_aParameters[ 2 ];
         $sType          = $_aParameters[ 3 ];
-// FeedZapper_Debug::log( 'Renewing Cache' );
-// FeedZapper_Debug::log( $_aParameters );
         $_oHTTP         = new FeedZapper_HTTPClient(
             $sURL,
             $iCacheDuration,
@@ -74,7 +72,7 @@ class FeedZapper_Event_Action_HTTPCacheRenewal extends FeedZapper_Event_Action_B
 
         // If it is expired,
         if ( 0 >= $aCache[ 'remained_time' ] ) {
-// FeedZapper_Debug::log( 'cache is expired: ' . $sType );
+
             // It is expired. So schedule a task that renews the cache in the background.
             $_bScheduled = $this->___scheduleBackgroundCacheRenewal(
                 $aCache[ 'request_uri' ],
@@ -82,7 +80,7 @@ class FeedZapper_Event_Action_HTTPCacheRenewal extends FeedZapper_Event_Action_B
                 $aArguments,
                 $sType
             );
-// FeedZapper_Debug::log( 'scheduled renewal: ' . $_bScheduled );
+
             // Tell the plugin it is not expired.
             $aCache[ 'remained_time' ] = time();
 

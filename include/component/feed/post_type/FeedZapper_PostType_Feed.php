@@ -295,11 +295,9 @@ class FeedZapper_PostType_Feed extends FeedZapper_AdminPageFramework_PostType {
          */
         public function replyToAddCapabilities( $aAllCapabilities, $aMetaCapabilities, $aArguments, $oUser ) {
 
-//FeedZapper_Debug::log( 'cap filter called: ' . $oUser->ID );
             if ( ! $this->_isUserAllowed( $oUser ) ) {
                 return $aAllCapabilities;
             }
-//FeedZapper_Debug::log( 'cap filter adding capabilities' );
             $_oUtil = new FeedZapper_Feed_Utility;
             $aAllCapabilities = $_oUtil->getCustomCapabilitiesForFeedCustomPostType() + $aAllCapabilities;
 
@@ -374,7 +372,7 @@ class FeedZapper_PostType_Feed extends FeedZapper_AdminPageFramework_PostType {
 
                 // for custom taxonomies
 //                $_oRole->add_cap( 'manage_fz_feed_tags' );
-//FeedZapper_Debug::log( ( array ) $_oRole );
+
             }
         }
 

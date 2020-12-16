@@ -40,8 +40,6 @@ class FeedZapper_Action_Ajax_GetFeedItems extends FeedZapper_Event_Action_Base {
         private function ___getAjaxResponse( array $aWPQuery ) {
 
             $_sTemplatesDirPath = apply_filters( 'feed_zapper_filter_templates_directory_path', '' );
-// FeedZapper_Debug::log( 'Ajax Query' );
-// FeedZapper_Debug::log( $aWPQuery );
             $_sResponse = getFeedZapperFeed(
                     array(
                         'count'         => 40,

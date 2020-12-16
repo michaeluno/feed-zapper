@@ -38,7 +38,6 @@ class FeedZapper_Action_Ajax_FeedItems_Mute extends FeedZapper_Action_Ajax_FeedI
                 unset( $_aMuteItems[ $_iTimeout ] );
             }
         }
-FeedZapper_Debug::log( $_aMuteItems );
 
         update_user_meta( $iUserID, '_fz_mute_items', $_aMuteItems );
 

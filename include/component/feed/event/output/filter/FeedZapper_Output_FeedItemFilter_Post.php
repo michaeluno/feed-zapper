@@ -35,7 +35,6 @@ class FeedZapper_Output_FeedItemFilter_Post extends FeedZapper_Output_FeedItemFi
 
         $_iUserID  = get_current_user_id();
         if ( ! $_iUserID ) {
-FeedZapper_Debug::log( 'no user id' );
             return $aItem;
         }
 

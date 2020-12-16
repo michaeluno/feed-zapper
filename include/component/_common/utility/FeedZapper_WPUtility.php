@@ -101,8 +101,6 @@ class FeedZapper_WPUtility extends FeedZapper_Utility {
 
         // Custom meta data needs to be updated as the wp_insert_post() cannot handle them.
         if ( ! empty( $aPostMeta ) ) {
-// FeedZapper_Debug::log( 'updating post meta of post ID: ' . $_ioPostID );
-// FeedZapper_Debug::log( $aPostMeta );
             self::updatePostMeta( $_ioPostID, $aPostMeta );
         }
 

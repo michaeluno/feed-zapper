@@ -72,8 +72,7 @@ class FeedZapper_MetaBox_Submit extends FeedZapper_AdminPageFramework_MetaBox {
      * @deprecated  does not work. If `draft` is set, it works but the entire fields become empty with an admin notice, "Post has been updated."
      */
     public function replyToDisablePending( $bMaybeEmpty, $aPostData ) {
-//return $bMaybeEmpty;
-//FeedZapper_Debug::log( $aPostData );
+
         if ( ! in_array( $aPostData[ 'post_type' ], $this->oProp->aPostTypes ) ) {
             return $bMaybeEmpty;
         }

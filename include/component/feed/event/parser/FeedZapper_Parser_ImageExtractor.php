@@ -39,8 +39,7 @@ class FeedZapper_Parser_ImageExtractor extends FeedZapper_PluginUtility {
      * @return      array       Holding found images.
      */
     public function replyToGetImagesExtracted( array $aImages, $sHTMLContent, SimplePie_Item $oItem ) {
-//FeedZapper_Debug::$iLegibleStringCharacterLimit = 2000;
-//FeedZapper_Debug::log( $sHTMLContent );
+
         $_oDoc    = $this->___oDOM->loadDOMFromHTMLElement( $sHTMLContent );
         $_oIMGs   = $_oDoc->getElementsByTagName( 'img' );
         foreach( $_oIMGs as $_oIMG ) {

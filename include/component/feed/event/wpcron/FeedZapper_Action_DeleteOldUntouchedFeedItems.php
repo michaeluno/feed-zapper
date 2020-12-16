@@ -77,7 +77,7 @@ class FeedZapper_Action_DeleteOldUntouchedFeedItems extends FeedZapper_Event_Act
                 . "ON {$_sTermRelationships}.object_id = {$_sPosts}.ID "
                 . "WHERE {$_sPosts}.ID is NULL;"
             );
-FeedZapper_Debug::log( 'orphaned term relationships: ' . $_iRowsToDelete );
+
             if ( ! $_iRowsToDelete ) {
                 return;
             }
@@ -109,7 +109,7 @@ FeedZapper_Debug::log( 'orphaned term relationships: ' . $_iRowsToDelete );
             }
 
         }
-    /**
+        /**
          * @param   integer $iExpiry
          * @return  array   an array holding post IDs to delete.
          */
@@ -150,9 +150,6 @@ FeedZapper_Debug::log( 'orphaned term relationships: ' . $_iRowsToDelete );
             );
             add_filter( 'terms_clauses', array( $this, 'replyToEditTermClauses' ), 10, 3 );
             $_oResults = new WP_Query( $_aArguments );
-
-//FeedZapper_Debug::log( 'query results' );
-//FeedZapper_Debug::log( $_oResults->posts );
             return $_oResults->posts;
 
         }
@@ -181,8 +178,6 @@ FeedZapper_Debug::log( 'orphaned term relationships: ' . $_iRowsToDelete );
         */
         $_sSearch = "t.name IN ('read_later_by_')";
         $aTermClauses[ 'where' ] = str_replace( $_sSearch, "t.name LIKE 'read_later_by_'", $aTermClauses[ 'where' ] );
-//FeedZapper_Debug::log( 'term clauses' );
-//FeedZapper_Debug::log( $aTermClauses );
         return $aTermClauses;
     }
 

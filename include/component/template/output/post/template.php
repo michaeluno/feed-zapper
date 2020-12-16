@@ -15,7 +15,7 @@ if ( $_bDebugMode ) {
 
 $_sLastItem     = '';
 foreach( $aItems as $_iIndex => $_aItem ) :
-// FeedZapper_Debug::log( $_aItem );
+
     end($aItems );
     if ( ! $bHasMore && $_iIndex === key( $aItems ) ) {
         $_sLastItem = 'last-item';
