@@ -53,8 +53,6 @@ class FeedZapper_WPUtility extends FeedZapper_Utility {
         $_sNameTimeout     = "_transient_timeout_{$sTransientKey}";
         $_sName            = "_transient_{$sTransientKey}";
         update_option( $_sNameTimeout, time() + $iLifespan );
-var_dump( array( $_sName, $_sNameTimeout ) );
-
         return update_option( $_sName, $mValue );
     }
 
