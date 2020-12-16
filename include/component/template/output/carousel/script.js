@@ -334,13 +334,12 @@ console.log( 'setting channel: ' + _iCurrentSlide );
         });
         _oFeeds.slick( _getSlickSettings( _iInitialSlide ) );
 
-        // Slick Slider Navigation
-        $( '.feed-zapper-all-feeds-slider-nav' ).slick( _getSlickSettingsNavigator() );
+        // Slick Slider Navigation // @deprecated 0.2.3
+        // $( '.feed-zapper-all-feeds-slider-nav' ).slick( _getSlickSettingsNavigator() );
 
         // Slick Slider Channels
         $( '.feed-zapper-all-feed-channels a[data-slide-index]' ).click( function(e) {
             e.preventDefault();
-console.log('channel clicked:', parseInt( $( this ).attr( 'data-slide-index' ) ) );
             _oFeeds.slick( 'slickGoTo', parseInt( $( this ).attr( 'data-slide-index' ) ) );
         } );
 
