@@ -83,7 +83,9 @@
 }
 
 /* Channels */
-.feed-zapper-all-feed-channels a {
+.entry-content .feed-zapper-all-feed-channels a,
+.feed-zapper-all-feed-channels a
+{
     text-decoration: none;
     border-bottom: none;
     box-shadow: none;

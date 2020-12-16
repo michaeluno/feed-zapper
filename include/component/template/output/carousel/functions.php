@@ -91,18 +91,18 @@ class FeedZapper_Template_Carousel_Utility extends FeedZapper_PluginUtility {
     static public function getWordCloud( array $aTerms ) {
     
         $_sOutput   = '';
-        $_iSetMax   = 5;  // Maximum scale
-        $_iSetMin   = 1;   // Minimum scale
+        $_iSetMax   = 5;     // Maximum scale
+        $_dSetMin   = 0.6;   // Minimum scale
+        $_iDefault  = 1;
         $_iMinInAll = max( min( $aTerms ), 1 ); // Frequency lower-bound
         $_iMaxInAll = max( $aTerms ); // Frequency upper-bound
 
+
         $_iIndex    = 0;
-        foreach( $aTerms as $_sTerm => $iFrequency ) {
-            $_dScale   = $iFrequency > $_iMinInAll
-                ? max( round( ( $_iSetMax * ( $iFrequency - $_iMinInAll ) ) / ( $_iMaxInAll - $_iMinInAll ), 3 ), $_iSetMin )
-                : $_iSetMin;
-            $_sStyle   = $_dScale !== $_iSetMin ? "style='font-size: {$_dScale}em;'" : '';
-            $_sOutput .= "<a href='#' {$_sStyle} class='feed-channel' data-count={$iFrequency} data-slide-index={$_iIndex}>"
+        foreach( $aTerms as $_sTerm => $_iCount ) {
+            $_dScale   = self::___getWordScale( $_iCount, $_iMinInAll, $_iMaxInAll, $_dSetMin, $_iSetMax, $_iDefault );
+            $_sStyle   = $_dScale !== $_iDefault ? "style='font-size: {$_dScale}em;'" : '';
+            $_sOutput .= "<a href='#' {$_sStyle} class='feed-channel' data-count={$_iCount} data-slide-index={$_iIndex}>"
                     . $_sTerm
                 . "</a>";
             $_iIndex++;
@@ -111,7 +111,16 @@ class FeedZapper_Template_Carousel_Utility extends FeedZapper_PluginUtility {
                 . $_sOutput
             . "</div>";
         
-    }    
+    }
+        static private function ___getWordScale( $_iCount, $_iMinInAll, $_iMaxInAll, $_dSetMin, $_iSetMax, $iDefault ) {
+            // For the system items, scale it to the default.
+            if ( 0 === $_iCount ) {
+                return $iDefault;
+            }
+            return $_iCount > $_iMinInAll
+                ? max( round( ( $_iSetMax * ( $_iCount - $_iMinInAll ) ) / ( $_iMaxInAll - $_iMinInAll ), 3 ), $_dSetMin )
+                : $_dSetMin;
+        }
 
 }
 class FeedZapper_Template_Carousel_ResourceLoader extends FeedZapper_PluginUtility {

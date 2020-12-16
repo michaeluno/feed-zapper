@@ -14,13 +14,14 @@
 $_oUtil  = new FeedZapper_Template_Carousel_Utility;
 $_sNonce = $_oUtil->getTemplateNonce();
 $_aTags  = $_oUtil->getUserTags( get_current_user_id(), 20 );
-$_aPostCounts = wp_list_pluck( $_aTags, 'count' );
+//$_aPostCounts = wp_list_pluck( $_aTags, 'count' );
 array_unshift(
     $_aTags,
     array(
         'name'    => __( 'All', 'feed-zapper' ),
         'term_id' => 0,
-        'count'   => array_sum( $_aPostCounts ),
+//        'count'   => array_sum( $_aPostCounts ),  // @deprecated as unbalance in the word cloud
+        'count'   => 0,
     )
 );
 array_push(
