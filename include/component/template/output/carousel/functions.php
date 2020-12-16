@@ -220,7 +220,7 @@ class FeedZapper_Template_Carousel_ResourceLoader extends FeedZapper_PluginUtili
                 'slick',
                 $_sURL,     // src
                 array( 'jquery' ),   // dependencies
-                '1.8.0',    // version number
+                '1.8.1',    // version number
                 true    // insert in footer
             );
         }
