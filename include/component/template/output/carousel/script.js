@@ -527,8 +527,6 @@ console.log( 'whether added No More button: ' + _bAdded );
              */
             function _addBottomButton( _oContainer, oCurrent, element, sNonce ) {
 
-                _addCheckedAboveButton( _oContainer, sNonce, element );
-
                 var _bAdded = _addNoMoreButton( _oContainer );
                 if ( _bAdded ) {
                     return; // no need for the 'Load More' button
@@ -540,19 +538,19 @@ console.log( 'whether added No More button: ' + _bAdded );
                 /**
                  * @since 0.2.1
                  */
-                function _addCheckedAboveButton( _oContainer, sNonce, element ) {
+                function _addCheckedAboveButtons( oContainer, sNonce, element ) {
+
                     // remove previously added one @deprecated
-                    // _oContainer.find( '.checked-above' ).remove();
+                    // oResponse.find( '.checked-above' ).remove();
                     var _oCheckedAboveButton = $( '<div class="align-center checked-above"><div class="margin-bottom2"><button class="feed-zapper-button feed-zapper-button4">' + fzCarousel.labels.checkedAbove + '</button></div></div>' );
-                    if ( ! _oContainer.find( '.feed-zapper-feed-item' ).length ) {
+                    if ( ! oContainer.find( '.feed-zapper-feed-item' ).length ) {
                         return;
                     }
-                    _oContainer.append( _oCheckedAboveButton );
-                    _oCheckedAboveButton.click( function() {
+                    oContainer.find( '.feed-zapper-feed-item:nth-child(10n)' )
+                        .after( _oCheckedAboveButton );
 
+                    oContainer.find( '.checked-above' ).click( function() {
                         var _oPreviousAll = $( this ).prevAll( '.feed-zapper-feed-item' );
-                        // console.log( 'found previous: ' + _oPreviousAll.length );
-
                         var _sDataKey = 'fz_uninterested_' + fzCarousel.userID;
                         var _aUninterested = _getLocalData( _sDataKey );
                         _oPreviousAll.each( function( index, value ) {
@@ -573,8 +571,8 @@ console.log( 'whether added No More button: ' + _bAdded );
                         $( [document.documentElement, document.body] ).animate({
                             scrollTop: $( element ).offset().top - 50
                         }, 1000);
-console.log( 'scrolling to: ' + $( element ).offset().top - 50 );
                     } );
+
                 }
                 /**
                  *
@@ -679,8 +677,11 @@ console.log( 'loading ' + ( bLatest ? 'latest' : 'older' ) + ' ...' );
              */
             function _addResponseItems( element, oResponse, oContainer, sNonce, sMethodName ) {
 
-                // method name: `append` or `prepend`
-                oContainer[ sMethodName ]( oResponse );
+                var _oWrap     = $( '<div class="wrapper-response"></div>' );   // the find() method needs the element to be inserted in DOM
+                _oWrap.append( oResponse );
+                oContainer[ sMethodName ]( _oWrap );  // method name: `append` or `prepend`
+                _addCheckedAboveButtons( _oWrap, sNonce, element );
+                _oWrap.children( '.feed-zapper-feed-item' ).unwrap();
 
                 // Lazy load images
                 oResponse.find( '.feed-zapper-feed-item-image > img' ).lazy( {
