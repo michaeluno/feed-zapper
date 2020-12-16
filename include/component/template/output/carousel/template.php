@@ -14,12 +14,13 @@
 $_oUtil  = new FeedZapper_Template_Carousel_Utility;
 $_sNonce = $_oUtil->getTemplateNonce();
 $_aTags  = $_oUtil->getUserTags( get_current_user_id(), 20 );
+$_aPostCounts = wp_list_pluck( $_aTags, 'count' );
 array_unshift(
     $_aTags,
     array(
         'name'    => __( 'All', 'feed-zapper' ),
         'term_id' => 0,
-        'count'   => 0,
+        'count'   => array_sum( $_aPostCounts ),
     )
 );
 array_push(
@@ -30,9 +31,21 @@ array_push(
         'count'   => 0,
     )
 );
+
 ?>
 
 
+<?php
+$_aWordCloudTags = array();
+foreach( $_aTags as $_iIndex => $_aTag ) {
+    $_aWordCloudTags[ $_aTag[ 'name' ] ] = $_aTag[ 'count' ];
+}
+echo $_oUtil->getWordCloud( $_aWordCloudTags );
+?>
+
+
+<?php
+/* @deprecated 0.2.3
 <div class="feed-zapper-all-feeds-slider-nav">
     <?php
     $_iCount = 1;
@@ -46,6 +59,8 @@ array_push(
     }
     ?>
 </div><!-- .feed-zapper-all-feeds-slider-nav -->
+*/
+?>
 
 <div class="feed-action align-right"><span class="dashicons dashicons-admin-generic"></span></div>
 

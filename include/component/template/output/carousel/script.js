@@ -337,6 +337,13 @@ console.log( 'setting channel: ' + _iCurrentSlide );
         // Slick Slider Navigation
         $( '.feed-zapper-all-feeds-slider-nav' ).slick( _getSlickSettingsNavigator() );
 
+        // Slick Slider Channels
+        $( '.feed-zapper-all-feed-channels a[data-slide-index]' ).click( function(e) {
+            e.preventDefault();
+console.log('channel clicked:', parseInt( $( this ).attr( 'data-slide-index' ) ) );
+            _oFeeds.slick( 'slickGoTo', parseInt( $( this ).attr( 'data-slide-index' ) ) );
+        } );
+
         function _getSlickSettings( _iInitialSlide ) {
             return {
                 dots: true,
@@ -344,7 +351,7 @@ console.log( 'setting channel: ' + _iCurrentSlide );
                  // speed: 300,
                 slidesToShow: 1,
                 adaptiveHeight: true,
-                asNavFor: '.feed-zapper-all-feeds-slider-nav',
+                /*asNavFor: '.feed-zapper-all-feeds-slider-nav',*/
                 draggable: false,
                 fade: true,
                 arrows: false,
@@ -358,7 +365,8 @@ console.log( 'setting channel: ' + _iCurrentSlide );
                 slidesToShow: 6,
                 slidesToScroll: 1,
                 asNavFor: '.feed-zapper-all-feeds',
-                dots: true,
+                dots: false,
+                draggable: true,
                 centerMode: true,
                 focusOnSelect: true,
                 arrows: true,

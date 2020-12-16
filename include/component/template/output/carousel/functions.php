@@ -85,53 +85,33 @@ class FeedZapper_Template_Carousel_Utility extends FeedZapper_PluginUtility {
         }
 
     /**
-     * @param string $args
-     * @param array $aTopTags
-     *
-     * @return array|string
-     * @deprecated not used at the moment
+     * @param array $aTerms
+     * @return string
      */
-    private function ___getTagCloud( $args = '', $aTopTags=array() ) {
-        $defaults = array(
-            'smallest'      => 8,       'largest'       => 22,
-            'unit'          => 'pt',    'number'        => 45,
-            'format'        => 'flat',  'separator'     => "\n",
-            'orderby'       => 'name',  'order'         => 'ASC',
-            'exclude'       => '',      'include'       => '',
-            'link'          => 'view',  'taxonomy'      => 'post_tag',
-            'post_type'     => '',      'echo'          => true,
-            'show_count'    => 0,
-        );
-        $args = wp_parse_args( $args, $defaults );
-        $tags = get_terms(
-            $args[ 'taxonomy' ],
-            array_merge(
-                array(
-                    'term_taxonomy_id' => wp_list_pluck( $aTopTags, 'term_id' ),
-                ),
-                $args,
-                array(
-                    'orderby'   => 'count',
-                    'order'     => 'DESC',
-                )
-            )
-        ); // Always query top tags
-        if ( empty( $tags ) || is_wp_error( $tags ) ) {
-            return '';
-        }
-        foreach ( $tags as $_iIndex => $tag ) {
-            $_sLink = 'edit' === $args['link']
-                ? get_edit_term_link( $tag->term_id, $tag->taxonomy, $args['post_type'] )
-                : get_term_link( intval($tag->term_id), $tag->taxonomy );
-            if ( is_wp_error( $_sLink ) ) {
-                continue;
-            }
-            $tags[ $_iIndex ]->link = $_sLink;
-            $tags[ $_iIndex ]->id   = $tag->term_id;
-        }
-        return wp_generate_tag_cloud( $tags, $args ); // Here's where those top tags get sorted according to $args
+    static public function getWordCloud( array $aTerms ) {
+    
+        $_sOutput   = '';
+        $_iSetMax   = 5;  // Maximum scale
+        $_iSetMin   = 1;   // Minimum scale
+        $_iMinInAll = max( min( $aTerms ), 1 ); // Frequency lower-bound
+        $_iMaxInAll = max( $aTerms ); // Frequency upper-bound
 
-    }
+        $_iIndex    = 0;
+        foreach( $aTerms as $_sTerm => $iFrequency ) {
+            $_dScale   = $iFrequency > $_iMinInAll
+                ? max( round( ( $_iSetMax * ( $iFrequency - $_iMinInAll ) ) / ( $_iMaxInAll - $_iMinInAll ), 3 ), $_iSetMin )
+                : $_iSetMin;
+            $_sStyle   = $_dScale !== $_iSetMin ? "style='font-size: {$_dScale}em;'" : '';
+            $_sOutput .= "<a href='#' {$_sStyle} class='feed-channel' data-count={$iFrequency} data-slide-index={$_iIndex}>"
+                    . $_sTerm
+                . "</a>";
+            $_iIndex++;
+        }
+        return "<div class='feed-zapper-all-feed-channels'>" // wp-tag-cloud
+                . $_sOutput
+            . "</div>";
+        
+    }    
 
 }
 class FeedZapper_Template_Carousel_ResourceLoader extends FeedZapper_PluginUtility {

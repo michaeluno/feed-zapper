@@ -78,6 +78,16 @@
     width: 100%; /* need to center the text */
 }
 
+/* Channels */
+.feed-zapper-all-feed-channels a {
+    text-decoration: none;
+    border-bottom: none;
+    box-shadow: none;
+    margin: 0;
+    padding-right: 10px;
+    line-height: 1em;
+}
+
 /* Owl Carousel Customization */
 /* @deprecated
 .owl-carousel{
