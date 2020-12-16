@@ -14,7 +14,9 @@ if ( ! class_exists( 'WP_SimplePie_File' ) ) {
         include_once( ABSPATH . WPINC . '/class-feed.php' );  
     } else {
         include_once( ABSPATH . WPINC . '/class-simplepie.php' );
-        include_once( ABSPATH . WPINC . '/class-wp-feed-cache.php' );
+        if ( version_compare( $GLOBALS[ 'wp_version' ], '5.6', '<' ) ) {
+            include_once( ABSPATH . WPINC . '/class-wp-feed-cache.php' );
+        }
         include_once( ABSPATH . WPINC . '/class-wp-feed-cache-transient.php' );
         include_once( ABSPATH . WPINC . '/class-wp-simplepie-file.php' );
         include_once( ABSPATH . WPINC . '/class-wp-simplepie-sanitize-kses.php' );
