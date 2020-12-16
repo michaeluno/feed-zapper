@@ -5,7 +5,7 @@
  * Description:    Helps your feed zapping and create your own zappers' network.
  * Author:         Michael Uno
  * Author URI:     http://en.michaeluno.jp
- * Version:        0.2.2
+ * Version:        0.2.3
  */
 
 /**
@@ -15,7 +15,7 @@
  */
 class FeedZapper_Registry_Base {
  
-    const VERSION        = '0.2.2';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION        = '0.2.3';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME           = 'Feed Zapper';
     const DESCRIPTION    = 'Helps your feed zapping and create your own zappers\' network.';
     const URI            = '[PROGRAM_URI]';
