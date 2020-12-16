@@ -11,9 +11,9 @@
         // Local Variables used among different routines
         var _oFeeds        = $( '.feed-zapper-all-feeds' );
 
-console.log( 'jquery version: ' + $().jquery );
-var version = $.ui ? $.ui.version || "pre 1.6" : 'jQuery-UI not detected';
-console.log( 'jquery ui version: ' + version );
+        if ( fzCarousel.debugMode ) {
+            console.log( 'jquery version: ', $().jquery, 'jquery ui version: ', $.ui ? $.ui.version || "pre 1.6" : 'jQuery-UI not detected' );
+        }
 
         // Local Variables
         var _iSlideCount   = $( '.feeds' ).length; // the number of channels (tags for now)
@@ -26,7 +26,6 @@ console.log( 'jquery ui version: ' + version );
         _oFeeds.on( 'init afterChange', function( event, slick, currentSlide, nextSlide ){
             var _iCurrentSlide = slick.slickCurrentSlide(); // `currentSlide` is null for the `init` event.
             _setLocalData( 'fz_last_channel_' + fzCarousel.userID, _iCurrentSlide );
-console.log( 'setting channel: ' + _iCurrentSlide );
             _slickLoad( this, event, slick, _iCurrentSlide, nextSlide );
         });
         _oFeeds.slick( _getSlickSettings( _iInitialSlide ) );
@@ -86,7 +85,7 @@ console.log( 'setting channel: ' + _iCurrentSlide );
             // Retrieve term ids of visible owl items
             // @todo support multiple columns. For that, found term ids will be multiple as multiple visible items(columns).
             // when multiple columns are displayed found term ids will be multiple.
-            var _iTermID = _oCurrent.find( '.feed-title' ).attr( 'data-term_id' );
+            var _iTermID = parseInt( _oCurrent.find( '.feed-title' ).attr( 'data-term_id' ) );
             // var _sTermName = _oCurrent.find( '.feed-title' ).text();
             var aQuery = {
                 tax_query: [
@@ -97,10 +96,10 @@ console.log( 'setting channel: ' + _iCurrentSlide );
                     }
                 ]
             };
-            if ( 0 == _iTermID ) {  // tag: 'All'
+            if ( 0 === _iTermID ) {  // tag: 'All'
                 delete aQuery[ 'tax_query' ];
             }
-            if ( -1 == _iTermID ) { // tag: 'Read Later'
+            if ( -1 === _iTermID ) { // tag: 'Read Later'
                 delete aQuery[ 'tax_query' ];
                 aQuery[ 'tax_query' ] = [
                     {
@@ -706,9 +705,15 @@ console.log( _aData );
                     return true;
                 }
 
-        /**
-         * Notify
-         */
+
+
+    }); // document ready
+
+    /**
+     * Notify
+     */
+    $( document ).ready( function(){
+
         $.notify.addStyle( 'foo', { //add a new style 'foo'
             html:
                 "<div>" +
