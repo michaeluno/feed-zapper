@@ -13,7 +13,7 @@
 
 $_oUtil  = new FeedZapper_Template_Carousel_Utility;
 $_sNonce = $_oUtil->getTemplateNonce();
-$_aTags  = $_oUtil->getUserTags( get_current_user_id(), 20 );
+$_aTags  = $_oUtil->getUserTags( get_current_user_id(), 100 );
 //$_aPostCounts = wp_list_pluck( $_aTags, 'count' );
 array_unshift(
     $_aTags,
