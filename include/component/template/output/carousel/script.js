@@ -660,9 +660,11 @@ console.log( 'scrolling to: ' + $( element ).offset().top - 50 );
                     .hide();
                 if ( bLatest ) {
                     _oContainer.prepend(
-                        _oSpinner.fadeIn( 1, function() {
-                            $( element ).slick( 'animateHeight' );
-                        } )
+                        _oSpinner.show()
+                        // @deprecated 0.2.3 Causes an error in jQuery 3.5
+                        // _oSpinner.fadeIn( 1, function() {
+                        //     $( element ).slick( 'animateHeight' );
+                        // } )
                     );
                 } else {
                     _oContainer.append( _oSpinner.fadeIn( 500 ) );
@@ -833,6 +835,7 @@ console.log( 'dismissed: ' + _iPostID );
                             }
                         });
                     }
+
     function _getLocalData( sKey ) {
         if ( 'undefined' === typeof( Storage ) ) {
             return {};
