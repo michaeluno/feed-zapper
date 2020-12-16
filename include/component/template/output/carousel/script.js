@@ -10,313 +10,10 @@
 
         // Local Variables used among different routines
         var _oFeeds        = $( '.feed-zapper-all-feeds' );
-        // var _sNonce        = _oFeeds.parent().children( '.nonce' ).first().attr( 'data-nonce' );
 
 console.log( 'jquery version: ' + $().jquery );
 var version = $.ui ? $.ui.version || "pre 1.6" : 'jQuery-UI not detected';
 console.log( 'jquery ui version: ' + version );
-
-        /**
-         * Mute Item Action
-         */
-        $.contextMenu({
-            selector: '.feed-item-action-mute',
-            /**
-             * this callback is executed every time the menu is to be shown
-             * its results are destroyed every time the menu is hidden
-             * @param trigger
-             * @param e the original contextmenu event, containing e.pageX and e.pageY (amongst other data)
-             * @returns {{callback: callback, items: {edit: {name: string, icon: string}, cut: {name: string, icon: string}, copy: {name: string, icon: string}, paste: {name: string, icon: string}, delete: {name: string, icon: string}, sep1: string, quit: {name: string, icon: (function(*, *, *): string)}}}}
-             */
-            build: function( trigger, e) {
-
-                var _oItem = $( e.target ).closest( '.feed-zapper-feed-item' );
-                var _sHost = _oItem.attr( 'data-host' );
-                var _sSelectedText = _getSelectionText();
-                var _oMenuItems    = {
-                    "by_site": {
-                        "name": "Mute by Web Site",
-                        "items": {
-                            pattern_site_url: {
-                                type: 'text',
-                                value: _sHost,
-                                events: {
-                                    keyup: function(e) {
-                                        // add some fancy key handling here?
-                                        // window.console && console.log('key: '+ e.keyCode);
-                                    }
-                                }
-                            },
-                            "separator1": "---------",
-                            "duration1-1" : {
-                                name: fzCarousel.labels.one_day,
-                                type: 'radio',
-                                radio: 'duration',
-                                value: 86400
-                            },
-                            "duration1-2" : {
-                                name: fzCarousel.labels.one_week,
-                                type: 'radio',
-                                radio: 'duration',
-                                value: 604800
-                            },
-                            "duration1-3" : {
-                                name: fzCarousel.labels.one_month,
-                                type: 'radio',
-                                radio: 'duration',
-                                value: 1814000
-                            },
-                            "duration1-4" : {
-                                name: fzCarousel.labels.forever,
-                                type: 'radio',
-                                radio: 'duration',
-                                value: -1,
-                            },
-                            "separator2": "---------",
-                            site: { // by ~
-                                name: fzCarousel.labels.mute,
-                                // callback: $.noop <-- if this set, the `callback` event gets overidden
-                            },
-                        }
-                    },
-                    "by_keyword": {
-                        "name": "Mute by Keywords",
-                        "items": {
-                            pattern_keywords: {
-                                type: 'text',
-                                value: _sSelectedText,
-                                events: {
-                                    keyup: function(e) {
-                                        // add some fancy key handling here?
-                                        // window.console && console.log('key: '+ e.keyCode);
-                                    }
-                                }
-                            },
-                            "separator1": "---------",
-                            "duration2-1" : {
-                                name: fzCarousel.labels.one_day,
-                                type: 'radio',
-                                radio: 'duration2',
-                                value: 86400
-                            },
-                            "duration2-2" : {
-                                name: fzCarousel.labels.one_week,
-                                type: 'radio',
-                                radio: 'duration2',
-                                value: 604800
-                            },
-                            "duration2-3" : {
-                                name: fzCarousel.labels.one_month,
-                                type: 'radio',
-                                radio: 'duration2',
-                                value: 1814000
-                            },
-                            "duration2-4" : {
-                                name: fzCarousel.labels.forever,
-                                type: 'radio',
-                                radio: 'duration2',
-                                value: -1,
-                            },
-                            "separator2": "---------",
-                            // "area-label": {"name": "In"},
-                            "in_title": {
-                                name: fzCarousel.labels.in_title,
-                                type: 'checkbox',
-                                selected: true
-                            },
-                            "in_content": {
-                                name: fzCarousel.labels.in_content,
-                                type: 'checkbox',
-                                selected: true
-                            },
-                            sep4: "---------",
-                            keyword: { // by ~
-                                name: fzCarousel.labels.mute,
-                                // callback: $.noop
-                            }
-                        },
-                        disabled: _sSelectedText ? false : true,
-                    },
-                    // "edit": {name: "Edit", icon: "edit"},
-                    // "sep1": "---------",
-                    // "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
-                };
-
-                var _sSelectedMenuItem = '';
-                return {
-                    callback: function(key, options) {
-                        // var m = "clicked: " + key;
-                        // window.console && console.log(m) || alert(m);
-                        console.log( 'callback: menu item selected: ' + key );
-                        _sSelectedMenuItem = key; // update the value to be referenced from the `hide` callback
-                    },
-                    animation: {duration: 250, show: 'fadeIn', hide: 'fadeOut'},
-                    className: 'feed-zapper-item-action-contextmenu feed-zapper-item-action-contextmenu__highlight',
-                    items: _oMenuItems,
-                    events: {
-                        activated: function( options ) {
-                            // Fix styles
-                            options.$menu.find( 'input[type=radio]' ).each( function( index, value ){
-                                var _sMenuItemRadioID = 'context-menu-radio-' + index;
-                                $( this ).attr( 'id', _sMenuItemRadioID );
-                                $( this ).parent().attr( 'for', _sMenuItemRadioID ); // label tag misses the for attribute
-                            } );
-
-                            // @deprecated This causes jittery effects
-                            // opt.$menu.find( 'li' ).addClass( 'align-left' );
-                            // opt.$menu.find( 'span:contains("' + fzCarousel.labels.mute + '")').parent().addClass( 'align-center' );
-                        },
-                        show: function( options ) {
-                            // import states from data store
-                            var _oInputData = {
-                                duration: 86400,    // mute by site
-                                duration2: 86400,   // mute by keyword
-                                pattern_keywords: _sSelectedText,
-                                pattern_site_url: _sHost,
-                                in_title: true,
-                                in_content: true,
-                            };
-                            $.contextMenu.setInputValues( options, _oInputData );
-                        },
-                        hide: function( options ) {
-                            if ( ! _sSelectedMenuItem ) {
-                                return;
-                            }
-                            var _aInputs = $.contextMenu.getInputValues( options, this.data() );   // menu inputs
-                            _aInputs[ 'by' ] = _sSelectedMenuItem;
-                            setTimeout(
-                                function(){
-                                    _handleItemActionMute( _aInputs, fzCarousel.nonce );
-                                },
-                                10  // ajax call within the `show` event callback causes an error
-                            );
-                            _sSelectedMenuItem = '';    // reset
-                        }
-                    }
-                };
-            }
-        });
-            function _handleItemActionMute( aInputs, sNonce ) {
-
-                var _iTimeout = 0;
-                var _aMutes   = {};
-                var _oInputs  = {
-                    in: [],
-                    pattern: '',
-                };
-                switch( aInputs[ 'by' ] ) {
-                    case 'site':
-                        _oInputs[ 'in' ] = [ 'permalink' ];
-                        _oInputs[ 'pattern' ] = aInputs[ 'pattern_site_url' ];
-                        // aInputs[ 'pattern' ] = aInputs[ 'pattern_site_url' ];
-                        // delete aInputs[ 'in_title' ];
-                        // delete aInputs[ 'in_content' ];
-                        break;
-                    case 'keyword':
-                        if ( aInputs[ 'in_content' ] ) {
-                            _oInputs[ 'in' ].push( 'content', 'description' );
-                        }
-                        if ( aInputs[ 'in_title' ] ) {
-                            _oInputs[ 'in' ].push( 'title' );
-                        }
-                        _oInputs[ 'pattern' ] = aInputs[ 'pattern_keywords' ];
-                        aInputs[ 'duration' ] = aInputs[ 'duration2' ];
-                        // aInputs[ 'pattern' ]  = aInputs[ 'pattern_keywords' ];
-                        break;
-                    default:
-                        $.notify(
-                            fzCarousel.labels.something_went_wrong,
-                            {
-                                position: 'bottom right',
-                                className: 'error',
-                            }
-                        );
-                        return;
-                }
-                // delete aInputs[ 'duration2' ];
-                // delete aInputs[ 'pattern_site_url' ];
-                // delete aInputs[ 'pattern_keywords' ];
-                console.log( 'mute action sending' );
-
-                var _iTimeout = -1 === aInputs[ 'duration' ]
-                    ? ( + new Date ) * -1
-                    : ( + new Date ) + aInputs[ 'duration' ];
-                _aMutes[ _iTimeout ] = _oInputs;
-console.log( _aMutes );
-// @todo set local data _aMutes for backup
-// Also send stored mute items as well
-                jQuery.ajax( {
-                    type: "post",
-                    dataType: 'json',
-                    url: fzCarousel.AJAXURL,
-                    // Data set to $_POSt and $_REQUEST
-                    data: {
-                        action: 'feed_zapper_action_mute_feed_item',   // WordPress action hook name which follows after `wp_ajax_`
-                        fz_nonce: sNonce,   // the nonce value set in template.php
-                        mute_feed_item: _aMutes,
-                    },
-                    success: function ( response ) {
-                        if ( response.success ) {
-             //               _setResponseLocalDataByKey( response, 'fz_mute_by_' + fzCarousel.userID );
-                            $.notify(
-                                {
-                                    title: "Muted the item.",
-                                },
-                                {
-                                    position: 'bottom right',
-                                    className: 'success',
-                                    style: 'foo',
-                                    autoHideDelay: 8000,
-                                }
-                            );
-console.log( response );
-                        } else {
-                            $.notify(
-                                "Could not mute the item. Something went wrong.",
-                                {
-                                    position: 'bottom right',
-                                    className: 'error',
-                                }
-                            );
-                        }
-                    }
-                } ); // ajax
-
-            }
-            function _getSelectionText() {
-                var text = "";
-                var activeEl = document.activeElement;
-                var activeElTagName = activeEl ? activeEl.tagName.toLowerCase() : null;
-                if (
-                  (activeElTagName == "textarea") || (activeElTagName == "input" &&
-                  /^(?:text|search|password|tel|url)$/i.test(activeEl.type)) &&
-                  (typeof activeEl.selectionStart == "number")
-                ) {
-                    text = activeEl.value.slice(activeEl.selectionStart, activeEl.selectionEnd);
-                } else if (window.getSelection) {
-                    text = window.getSelection().toString();
-                }
-                return text;
-            }
-
-
-        $.contextMenu({
-            selector: '.feed-item-action-menu',
-            callback: function(key, options) {
-                var m = "clicked: " + key;
-                window.console && console.log(m) || alert(m);
-            },
-            className: 'feed-zapper-item-action-contextmenu feed-zapper-item-action-contextmenu__highlight',
-            items: {
-                "edit": {name: "Edit", icon: "edit"},
-                "cut": {name: "Cut", icon: "cut"},
-                "copy": {name: "Copy", icon: "copy"},
-                "paste": {name: "Paste", icon: "paste"},
-                "delete": {name: "Delete", icon: "delete"},
-                // "sep1": "---------",
-                // "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
-            }
-        });
 
         // Local Variables
         var _iSlideCount   = $( '.feeds' ).length; // the number of channels (tags for now)
@@ -1032,5 +729,311 @@ console.log( _aData );
         });
 
     }); // document ready
+
+    /**
+     * Mute Item Action
+     */
+    $( document ).ready( function(){
+
+        $.contextMenu({
+            selector: '.feed-item-action-mute',
+            /**
+             * this callback is executed every time the menu is to be shown
+             * its results are destroyed every time the menu is hidden
+             * @param trigger
+             * @param e the original contextmenu event, containing e.pageX and e.pageY (amongst other data)
+             * @returns {{callback: callback, items: {edit: {name: string, icon: string}, cut: {name: string, icon: string}, copy: {name: string, icon: string}, paste: {name: string, icon: string}, delete: {name: string, icon: string}, sep1: string, quit: {name: string, icon: (function(*, *, *): string)}}}}
+             */
+            build: function( trigger, e) {
+
+                var _oItem = $( e.target ).closest( '.feed-zapper-feed-item' );
+                var _sHost = _oItem.attr( 'data-host' );
+                var _sSelectedText = _getSelectionText();
+                var _oMenuItems    = {
+                    "by_site": {
+                        "name": "Mute by Web Site",
+                        "items": {
+                            pattern_site_url: {
+                                type: 'text',
+                                value: _sHost,
+                                events: {
+                                    keyup: function(e) {
+                                        // add some fancy key handling here?
+                                        // window.console && console.log('key: '+ e.keyCode);
+                                    }
+                                }
+                            },
+                            "separator1": "---------",
+                            "duration1-1" : {
+                                name: fzCarousel.labels.one_day,
+                                type: 'radio',
+                                radio: 'duration',
+                                value: 86400
+                            },
+                            "duration1-2" : {
+                                name: fzCarousel.labels.one_week,
+                                type: 'radio',
+                                radio: 'duration',
+                                value: 604800
+                            },
+                            "duration1-3" : {
+                                name: fzCarousel.labels.one_month,
+                                type: 'radio',
+                                radio: 'duration',
+                                value: 1814000
+                            },
+                            "duration1-4" : {
+                                name: fzCarousel.labels.forever,
+                                type: 'radio',
+                                radio: 'duration',
+                                value: -1,
+                            },
+                            "separator2": "---------",
+                            site: { // by ~
+                                name: fzCarousel.labels.mute,
+                                // callback: $.noop <-- if this set, the `callback` event gets overidden
+                            },
+                        }
+                    },
+                    "by_keyword": {
+                        "name": "Mute by Keywords",
+                        "items": {
+                            pattern_keywords: {
+                                type: 'text',
+                                value: _sSelectedText,
+                                events: {
+                                    keyup: function(e) {
+                                        // add some fancy key handling here?
+                                        // window.console && console.log('key: '+ e.keyCode);
+                                    }
+                                }
+                            },
+                            "separator1": "---------",
+                            "duration2-1" : {
+                                name: fzCarousel.labels.one_day,
+                                type: 'radio',
+                                radio: 'duration2',
+                                value: 86400
+                            },
+                            "duration2-2" : {
+                                name: fzCarousel.labels.one_week,
+                                type: 'radio',
+                                radio: 'duration2',
+                                value: 604800
+                            },
+                            "duration2-3" : {
+                                name: fzCarousel.labels.one_month,
+                                type: 'radio',
+                                radio: 'duration2',
+                                value: 1814000
+                            },
+                            "duration2-4" : {
+                                name: fzCarousel.labels.forever,
+                                type: 'radio',
+                                radio: 'duration2',
+                                value: -1,
+                            },
+                            "separator2": "---------",
+                            // "area-label": {"name": "In"},
+                            "in_title": {
+                                name: fzCarousel.labels.in_title,
+                                type: 'checkbox',
+                                selected: true
+                            },
+                            "in_content": {
+                                name: fzCarousel.labels.in_content,
+                                type: 'checkbox',
+                                selected: true
+                            },
+                            sep4: "---------",
+                            keyword: { // by ~
+                                name: fzCarousel.labels.mute,
+                                // callback: $.noop
+                            }
+                        },
+                        disabled: _sSelectedText ? false : true,
+                    },
+                    // "edit": {name: "Edit", icon: "edit"},
+                    // "sep1": "---------",
+                    // "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
+                };
+
+                var _sSelectedMenuItem = '';
+                return {
+                    callback: function(key, options) {
+                        // var m = "clicked: " + key;
+                        // window.console && console.log(m) || alert(m);
+                        console.log( 'callback: menu item selected: ' + key );
+                        _sSelectedMenuItem = key; // update the value to be referenced from the `hide` callback
+                    },
+                    animation: {duration: 250, show: 'fadeIn', hide: 'fadeOut'},
+                    className: 'feed-zapper-item-action-contextmenu feed-zapper-item-action-contextmenu__highlight',
+                    items: _oMenuItems,
+                    events: {
+                        activated: function( options ) {
+                            // Fix styles
+                            options.$menu.find( 'input[type=radio]' ).each( function( index, value ){
+                                var _sMenuItemRadioID = 'context-menu-radio-' + index;
+                                $( this ).attr( 'id', _sMenuItemRadioID );
+                                $( this ).parent().attr( 'for', _sMenuItemRadioID ); // label tag misses the for attribute
+                            } );
+
+                            // @deprecated This causes jittery effects
+                            // opt.$menu.find( 'li' ).addClass( 'align-left' );
+                            // opt.$menu.find( 'span:contains("' + fzCarousel.labels.mute + '")').parent().addClass( 'align-center' );
+                        },
+                        show: function( options ) {
+                            // import states from data store
+                            var _oInputData = {
+                                duration: 86400,    // mute by site
+                                duration2: 86400,   // mute by keyword
+                                pattern_keywords: _sSelectedText,
+                                pattern_site_url: _sHost,
+                                in_title: true,
+                                in_content: true,
+                            };
+                            $.contextMenu.setInputValues( options, _oInputData );
+                        },
+                        hide: function( options ) {
+                            if ( ! _sSelectedMenuItem ) {
+                                return;
+                            }
+                            var _aInputs = $.contextMenu.getInputValues( options, this.data() );   // menu inputs
+                            _aInputs[ 'by' ] = _sSelectedMenuItem;
+                            setTimeout(
+                                function(){
+                                    _handleItemActionMute( _aInputs, fzCarousel.nonce );
+                                },
+                                10  // ajax call within the `show` event callback causes an error
+                            );
+                            _sSelectedMenuItem = '';    // reset
+                        }
+                    }
+                };
+            }
+        });
+            function _handleItemActionMute( aInputs, sNonce ) {
+
+                var _iTimeout = 0;
+                var _aMutes   = {};
+                var _oInputs  = {
+                    in: [],
+                    pattern: '',
+                };
+                switch( aInputs[ 'by' ] ) {
+                    case 'site':
+                        _oInputs[ 'in' ] = [ 'permalink' ];
+                        _oInputs[ 'pattern' ] = aInputs[ 'pattern_site_url' ];
+                        // aInputs[ 'pattern' ] = aInputs[ 'pattern_site_url' ];
+                        // delete aInputs[ 'in_title' ];
+                        // delete aInputs[ 'in_content' ];
+                        break;
+                    case 'keyword':
+                        if ( aInputs[ 'in_content' ] ) {
+                            _oInputs[ 'in' ].push( 'content', 'description' );
+                        }
+                        if ( aInputs[ 'in_title' ] ) {
+                            _oInputs[ 'in' ].push( 'title' );
+                        }
+                        _oInputs[ 'pattern' ] = aInputs[ 'pattern_keywords' ];
+                        aInputs[ 'duration' ] = aInputs[ 'duration2' ];
+                        // aInputs[ 'pattern' ]  = aInputs[ 'pattern_keywords' ];
+                        break;
+                    default:
+                        $.notify(
+                            fzCarousel.labels.something_went_wrong,
+                            {
+                                position: 'bottom right',
+                                className: 'error',
+                            }
+                        );
+                        return;
+                }
+                // delete aInputs[ 'duration2' ];
+                // delete aInputs[ 'pattern_site_url' ];
+                // delete aInputs[ 'pattern_keywords' ];
+                console.log( 'mute action sending' );
+
+                var _iTimeout = -1 === aInputs[ 'duration' ]
+                    ? ( + new Date ) * -1
+                    : ( + new Date ) + aInputs[ 'duration' ];
+                _aMutes[ _iTimeout ] = _oInputs;
+console.log( _aMutes );
+// @todo set local data _aMutes for backup
+// Also send stored mute items as well
+                jQuery.ajax( {
+                    type: "post",
+                    dataType: 'json',
+                    url: fzCarousel.AJAXURL,
+                    // Data set to $_POSt and $_REQUEST
+                    data: {
+                        action: 'feed_zapper_action_mute_feed_item',   // WordPress action hook name which follows after `wp_ajax_`
+                        fz_nonce: sNonce,   // the nonce value set in template.php
+                        mute_feed_item: _aMutes,
+                    },
+                    success: function ( response ) {
+                        if ( response.success ) {
+             //               _setResponseLocalDataByKey( response, 'fz_mute_by_' + fzCarousel.userID );
+                            $.notify(
+                                {
+                                    title: "Muted the item.",
+                                },
+                                {
+                                    position: 'bottom right',
+                                    className: 'success',
+                                    style: 'foo',
+                                    autoHideDelay: 8000,
+                                }
+                            );
+console.log( response );
+                        } else {
+                            $.notify(
+                                "Could not mute the item. Something went wrong.",
+                                {
+                                    position: 'bottom right',
+                                    className: 'error',
+                                }
+                            );
+                        }
+                    }
+                } ); // ajax
+
+            }
+            function _getSelectionText() {
+                var text = "";
+                var activeEl = document.activeElement;
+                var activeElTagName = activeEl ? activeEl.tagName.toLowerCase() : null;
+                if (
+                  (activeElTagName == "textarea") || (activeElTagName == "input" &&
+                  /^(?:text|search|password|tel|url)$/i.test(activeEl.type)) &&
+                  (typeof activeEl.selectionStart == "number")
+                ) {
+                    text = activeEl.value.slice(activeEl.selectionStart, activeEl.selectionEnd);
+                } else if (window.getSelection) {
+                    text = window.getSelection().toString();
+                }
+                return text;
+            }
+
+
+        $.contextMenu({
+            selector: '.feed-item-action-menu',
+            callback: function(key, options) {
+                var m = "clicked: " + key;
+                window.console && console.log(m) || alert(m);
+            },
+            className: 'feed-zapper-item-action-contextmenu feed-zapper-item-action-contextmenu__highlight',
+            items: {
+                "edit": {name: "Edit", icon: "edit"},
+                "cut": {name: "Cut", icon: "cut"},
+                "copy": {name: "Copy", icon: "copy"},
+                "paste": {name: "Paste", icon: "paste"},
+                "delete": {name: "Delete", icon: "delete"},
+                // "sep1": "---------",
+                // "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
+            }
+        });
+
+    } ); // document ready
 
 }(jQuery));
